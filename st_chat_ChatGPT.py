@@ -30,6 +30,7 @@ if prompt := st.chat_input("What is up?"):
     if not openai_api_key:
         st.info("Please add your OpenAI API key to continue.")
         st.stop()
+    openai.api_key = openai_api_key
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
