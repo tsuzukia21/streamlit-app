@@ -3,3 +3,4 @@ mitosheet
 pandas
 openai
 langchain
+duckduckgo-search
