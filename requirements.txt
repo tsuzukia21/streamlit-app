@@ -4,3 +4,4 @@ pandas
 openai
 langchain>=0.0.279
 duckduckgo-search
+pip>=23.2.1
