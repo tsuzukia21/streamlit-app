@@ -5,9 +5,8 @@ import pandas as pd
 if not hasattr(st.session_state, "df_mito"):
     st.session_state["df_mito"]= pd.DataFrame()
 
-st.header("mitoを使ったデータ分析")
-st.write("***mitoを使ったデータ分析が出来ます。お好きなファイルをアップロードしてください。***")
-upload_file = st.file_uploader('分析したいファイルを選択してください', type=['csv', 'xlsx'])
+st.subheader("Data Analytics by Mito / mitoを使ったデータ分析")
+upload_file = st.file_uploader('***You can analyze data using Mito. Upload your favorite files.***\n\n***mitoを使ったデータ分析が出来ます。お好きなファイルをアップロードしてください。***', type=['csv', 'xlsx'])
 if upload_file is not None:
     if upload_file.name.endswith("csv"):
         st.session_state.df_mito=pd.read_csv(upload_file)
