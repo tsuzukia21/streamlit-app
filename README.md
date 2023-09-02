@@ -6,7 +6,7 @@ creating an application that can be run in streamlit.
 
 You can learn how to run these apps.(Japanese)
 
-![]([https://cpp-learning.com/wp-content/uploads/2019/05/pyxel-190505-161951.gif](https://zenn.dev/tsuzukia))
+https://zenn.dev/tsuzukia
 
 # Installation
 
@@ -32,7 +32,7 @@ I don't test environments under Linux and Mac.
 
 * tsuzukia21
 * R&D Center
-* Twitter : [https://twitter.com/Cpp_Learning](https://twitter.com/tsuzukia_prgm)
+* Twitter : [https://twitter.com/tsuzukia_prgm](https://twitter.com/tsuzukia_prgm)
 
 
 Thank you!
