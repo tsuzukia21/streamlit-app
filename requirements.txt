@@ -3,4 +3,3 @@ mitosheet
 pandas
 openai>=0.28.0
 langchain>=0.0.279
-duckduckgo-search==3.8.4
