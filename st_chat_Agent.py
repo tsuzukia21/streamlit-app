@@ -20,7 +20,7 @@ st.title("Agent by Streamlit") # タイトルの設定
 
 st_callback = StreamlitCallbackHandler(st.container())
 search = DuckDuckGoSearchRun()
-llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
+llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo")
 llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
 
 template = """You are an AI chatbot having a conversation with a human.
@@ -49,7 +49,7 @@ tools = [
         description="useful for when you need to answer questions about math"
     ),
 ]
-agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory)
+agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory,openai_api_key=openai_api_key)
 
 # Display chat messages_agent from history on app rerun
 for message in st.session_state.messages_agent:
