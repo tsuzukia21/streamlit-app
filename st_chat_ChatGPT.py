@@ -5,6 +5,7 @@ st.title("ChatGPT by Streamlit") # タイトルの設定
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+    openai.api_key = openai_api_key
 
 # openai.api_key = 'your-api-key-here' # OpenAIのAPIキーを設定
 
@@ -30,7 +31,6 @@ if prompt := st.chat_input("What is up?"):
     if not openai_api_key:
         st.info("Please add your OpenAI API key to continue.")
         st.stop()
-    openai.api_key = openai_api_key
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
