@@ -46,7 +46,7 @@ if user_prompt := st.chat_input("Send a message"):
     if not openai_api_key:
         st.error('Please add your OpenAI API key to continue.', icon="🚨")
         st.stop()
-    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo")
+    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
     llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
     tools = [
         Tool(
@@ -60,7 +60,7 @@ if user_prompt := st.chat_input("Send a message"):
             description="useful for when you need to answer questions about math"
         ),
     ]
-    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory,openai_api_key=openai_api_key)
+    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory)
     st.session_state.messages_agent.append({"role": "user", "content": user_prompt})
     st.chat_message("user").write(user_prompt)
     prompt = template.format(history=msgs.messages, human_input=user_prompt)
