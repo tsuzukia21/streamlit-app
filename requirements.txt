@@ -1,7 +1,7 @@
 streamlit>=1.26.0
 mitosheet
 pandas
-openai
+openai>=0.28.0
 langchain>=0.0.279
 duckduckgo-search
 pip>=23.2.1
