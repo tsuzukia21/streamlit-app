@@ -22,14 +22,14 @@ if "Clear" not in st.session_state:
 
 # 以前のメッセージを表示
 for message in st.session_state.messages:
-    if not openai_api_key:
-        st.info("Please add your OpenAI API key to continue.")
-        st.stop()
     with st.chat_message(message["role"]):
         st.markdown(message["content"])
 
 # ユーザーからの新しい入力を取得
 if prompt := st.chat_input("What is up?"):
+    if not openai_api_key:
+        st.info("Please add your OpenAI API key to continue.")
+        st.stop()
     st.session_state.messages.append({"role": "user", "content": prompt})
     with st.chat_message("user"):
         st.markdown(prompt)
