@@ -31,7 +31,6 @@ I don't test environments under Linux and Mac.
 # Author
 
 * tsuzukia21
-* R&D Center
 * Twitter : [https://twitter.com/tsuzukia_prgm](https://twitter.com/tsuzukia_prgm)
 
 
