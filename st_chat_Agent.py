@@ -20,8 +20,6 @@ st.title("Agent by Streamlit") # タイトルの設定
 
 st_callback = StreamlitCallbackHandler(st.container())
 search = DuckDuckGoSearchRun()
-llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo")
-llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
 
 template = """You are an AI chatbot having a conversation with a human.
 {history}
@@ -37,19 +35,6 @@ if "Clear" not in st.session_state:
 
 msgs = StreamlitChatMessageHistory(key="special_app_key")
 memory = ConversationBufferMemory(memory_key="history", chat_memory=msgs)
-tools = [
-    Tool(
-        name = "ddg-search",
-        func=search.run,
-        description="useful for when you need to answer questions about current events.. You should ask targeted questions"
-    ),
-    Tool(
-        name="Calculator",
-        func=llm_math_chain.run,
-        description="useful for when you need to answer questions about math"
-    ),
-]
-agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory,openai_api_key=openai_api_key)
 
 # Display chat messages_agent from history on app rerun
 for message in st.session_state.messages_agent:
@@ -61,6 +46,21 @@ if user_prompt := st.chat_input("Send a message"):
     if not openai_api_key:
         st.error('Please add your OpenAI API key to continue.', icon="🚨")
         st.stop()
+    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo")
+    llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
+    tools = [
+        Tool(
+            name = "ddg-search",
+            func=search.run,
+            description="useful for when you need to answer questions about current events.. You should ask targeted questions"
+        ),
+        Tool(
+            name="Calculator",
+            func=llm_math_chain.run,
+            description="useful for when you need to answer questions about math"
+        ),
+    ]
+    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory,openai_api_key=openai_api_key)
     st.session_state.messages_agent.append({"role": "user", "content": user_prompt})
     st.chat_message("user").write(user_prompt)
     prompt = template.format(history=msgs.messages, human_input=user_prompt)
