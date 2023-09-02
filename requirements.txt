@@ -1,6 +1,6 @@
 streamlit>=1.26.0
-mitosheet>=0.0.279
+mitosheet
 pandas
 openai
-langchain
+langchain>=0.0.279
 duckduckgo-search
