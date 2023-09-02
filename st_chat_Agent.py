@@ -1,5 +1,4 @@
 import streamlit as st
-import openai
 from langchain.callbacks import StreamlitCallbackHandler
 from langchain.tools import DuckDuckGoSearchRun
 from langchain.chat_models import ChatOpenAI
@@ -16,7 +15,6 @@ with st.sidebar:
     "[OpenAI functions](https://python.langchain.com/docs/modules/agents/agent_types/openai_functions_agent)"
     "[DuckDuckGo Search](https://python.langchain.com/docs/integrations/tools/ddg)"
     "[View the source code](https://github.com/tsuzukia21/streamlit-app/blob/main/st_chat_Agent.py)"
-    openai.api_key = openai_api_key
 
 st.title("Agent by Streamlit") # タイトルの設定
 
