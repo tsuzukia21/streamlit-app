@@ -37,8 +37,11 @@ To start the application, execute the following command in a terminal.
 streamlit run XXXXX.py
 ```
 
-# Note
-I don't test environments under Linux and Mac.
+# API Key
+
+To use LLM(ChatGPT), you need an API Key from OpenAI; please register with OpenAI and have an API Key issued. Also, you will have to pay a little money when you use the API Key.
+
+LLM(ChatGPT)を使用するにはOpenAIのAPI Keyが必要です。OpenAIに登録してAPI Keyの発行をしてください。また、API Keyを使用する際は少しのお金が発生します。
 
 # Author
 
