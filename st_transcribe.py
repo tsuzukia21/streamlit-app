@@ -14,7 +14,7 @@ japanese_spliter = JapaneseCharacterTextSplitter(
 )
 
 with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
+    openai.api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
 
 st.header('音声文字起こしアプリ')
 
@@ -30,7 +30,7 @@ if upload_file is not None:
     trans_start=st.button('文字起こし開始')
 
     if trans_start:
-        if not openai_api_key:
+        if not openai.api_key:
             st.error('OpenAI API keyを入力してください。', icon="🚨")
             st.stop()
         else:
