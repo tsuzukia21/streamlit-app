@@ -14,6 +14,9 @@ st_chat_ChatGPT.py...[StreamlitでChatGPTアプリを作成しよう!](https://z
 
 st_chat_Agent.py...[StreamlitでChatGPTアプリを作成しよう!](https://zenn.dev/tsuzukia/articles/3fbf91647d50d4)
 
+st_transcribe.py...[Streamlitで音声文字起こしアプリを作成してみよう！*文字起こし結果修正機能付き](https://zenn.dev/tsuzukia/articles/eb116703b71c5f)
+
+
 # Installation
 Depending on the application, the following packages are basically required.
 

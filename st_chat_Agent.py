@@ -7,7 +7,8 @@ from langchain.callbacks import StreamlitCallbackHandler
 from langchain import LLMMathChain
 from langchain.memory import ConversationBufferMemory
 from langchain.memory import StreamlitChatMessageHistory
-
+from langchain.prompts import MessagesPlaceholder
+from langchain.schema.messages import SystemMessage
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", key="chatbot_api_key", type="password")
     st.write("***Agent is OPENAI_FUNCTIONS.***\n\n***Tools are llm_math and duckduckgo-search.***\
@@ -21,11 +22,6 @@ st.title("Agent by Streamlit") # タイトルの設定
 st_callback = StreamlitCallbackHandler(st.container())
 search = DuckDuckGoSearchRun()
 
-template = """You are an AI chatbot having a conversation with a human.
-{history}
-Human: {human_input}
-AI: """
-
 attrs=["messages_agent","agent_kwargs"]
 for attr in attrs:
     if attr not in st.session_state:
@@ -33,8 +29,28 @@ for attr in attrs:
 if "Clear" not in st.session_state:
     st.session_state.Clear = False
 
+agent_kwargs = {
+    "system_message": SystemMessage(content="You are an AI chatbot having a conversation with a human.", additional_kwargs={}),
+    "extra_prompt_messages": [MessagesPlaceholder(variable_name="history")],
+}
 msgs = StreamlitChatMessageHistory(key="special_app_key")
-memory = ConversationBufferMemory(memory_key="history", chat_memory=msgs)
+memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
+
+llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
+llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
+tools = [
+    Tool(
+        name = "ddg-search",
+        func=search.run,
+        description="useful for when you need to answer questions about current events.. You should ask targeted questions"
+    ),
+    Tool(
+        name="Calculator",
+        func=llm_math_chain.run,
+        description="useful for when you need to answer questions about math"
+    ),
+]
+agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, agent_kwargs=agent_kwargs,verbose=False,memory=memory)
 
 # Display chat messages_agent from history on app rerun
 for message in st.session_state.messages_agent:
@@ -46,27 +62,11 @@ if user_prompt := st.chat_input("Send a message"):
     if not openai_api_key:
         st.error('Please add your OpenAI API key to continue.', icon="🚨")
         st.stop()
-    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
-    llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
-    tools = [
-        Tool(
-            name = "ddg-search",
-            func=search.run,
-            description="useful for when you need to answer questions about current events.. You should ask targeted questions"
-        ),
-        Tool(
-            name="Calculator",
-            func=llm_math_chain.run,
-            description="useful for when you need to answer questions about math"
-        ),
-    ]
-    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, verbose=False,memory=memory)
     st.session_state.messages_agent.append({"role": "user", "content": user_prompt})
     st.chat_message("user").write(user_prompt)
-    prompt = template.format(history=msgs.messages, human_input=user_prompt)
     with st.chat_message("assistant"):
         st_callback = StreamlitCallbackHandler(st.container())
-        response = agent.run(prompt, callbacks=[st_callback])
+        response = agent.run(user_prompt, callbacks=[st_callback])
         st.write(response)
     st.session_state.messages_agent.append({"role": "assistant", "content": response})
     st.session_state.Clear = True # チャット履歴のクリアボタンを有効にする
