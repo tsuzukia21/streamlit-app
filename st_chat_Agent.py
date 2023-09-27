@@ -36,21 +36,25 @@ agent_kwargs = {
 msgs = StreamlitChatMessageHistory(key="special_app_key")
 memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
 
-llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
-llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
-tools = [
-    Tool(
-        name = "ddg-search",
-        func=search.run,
-        description="useful for when you need to answer questions about current events.. You should ask targeted questions"
-    ),
-    Tool(
-        name="Calculator",
-        func=llm_math_chain.run,
-        description="useful for when you need to answer questions about math"
-    ),
-]
-agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, agent_kwargs=agent_kwargs,verbose=False,memory=memory)
+if not openai_api_key:
+    st.error('Please add your OpenAI API key to continue.', icon="🚨")
+    st.stop()
+else:
+    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=openai_api_key)
+    llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
+    tools = [
+        Tool(
+            name = "ddg-search",
+            func=search.run,
+            description="useful for when you need to answer questions about current events.. You should ask targeted questions"
+        ),
+        Tool(
+            name="Calculator",
+            func=llm_math_chain.run,
+            description="useful for when you need to answer questions about math"
+        ),
+    ]
+    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, agent_kwargs=agent_kwargs,verbose=False,memory=memory)
 
 # Display chat messages_agent from history on app rerun
 for message in st.session_state.messages_agent:
@@ -59,9 +63,6 @@ for message in st.session_state.messages_agent:
             st.markdown(message["content"],unsafe_allow_html=True)
 
 if user_prompt := st.chat_input("Send a message"):
-    if not openai_api_key:
-        st.error('Please add your OpenAI API key to continue.', icon="🚨")
-        st.stop()
     st.session_state.messages_agent.append({"role": "user", "content": user_prompt})
     st.chat_message("user").write(user_prompt)
     with st.chat_message("assistant"):
