@@ -16,15 +16,18 @@ if not hasattr(st.session_state, "openai_api_key"):
         st.session_state.openai_api_key = ""
 
 with st.sidebar.container():
+    editing = sac.Tag('editing', color='green')
     menu = sac.menu([
         sac.MenuItem('pages', type='group', children=[
         sac.MenuItem('home', icon='house-fill'),
         sac.MenuItem('chat', icon='emoji-smile-fill'),
-        sac.MenuItem('agent', icon='person'),
-        sac.MenuItem('transcribe', icon='music-note'),
+        sac.MenuItem('agent', icon='person',tag=editing),
+        sac.MenuItem('transcribe', icon='music-note',tag=editing),
         sac.MenuItem('mitosheet', icon='table')]),
         sac.MenuItem('link', type='group', children=[
-        sac.MenuItem('Github', icon='github', href='https://github.com/tsuzukia21')]),
+        sac.MenuItem('Github', icon='github', href='https://github.com/tsuzukia21'),
+        sac.MenuItem('X', icon='twitter-x', href='https://twitter.com/tsuzukia_prgm'),
+        sac.MenuItem('Zenn', icon='book', href='https://zenn.dev/tsuzukia')]),
         sac.MenuItem(type='divider'),
     ],index=1)
 
