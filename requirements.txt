@@ -1,7 +1,8 @@
-streamlit>=1.26.0
+streamlit
 mitosheet
 pandas
-openai>=0.28.0
-langchain>=0.0.279
-duckduckgo-search==3.8.1
+openai
+langchain
+duckduckgo-search
 typing
+streamlit_antd_components
