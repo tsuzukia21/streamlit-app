@@ -10,19 +10,23 @@ from st_transcribe import transcribe
 st.set_page_config(layout='wide', page_title='streamlit-antd-components')
 
 if not hasattr(st.session_state, "openai_api_key"):
-    # try:
-    #     st.session_state.openai_api_key = os.environ["OPENAI_API_KEY"]
-    # except:
-    st.session_state.openai_api_key = ""
+    try:
+        st.session_state.openai_api_key = os.environ["OPENAI_API_KEY"]
+    except:
+        st.session_state.openai_api_key = ""
 
 with st.sidebar.container():
     menu = sac.menu([
+        sac.MenuItem('pages', type='group', children=[
         sac.MenuItem('home', icon='house-fill'),
         sac.MenuItem('chat', icon='emoji-smile-fill'),
         sac.MenuItem('agent', icon='person'),
         sac.MenuItem('transcribe', icon='music-note'),
-        sac.MenuItem('mitosheet', icon='table'),
-        ])
+        sac.MenuItem('mitosheet', icon='table')]),
+        sac.MenuItem('link', type='group', children=[
+        sac.MenuItem('Github', icon='github', href='https://github.com/tsuzukia21')]),
+        sac.MenuItem(type='divider'),
+    ],index=1)
 
 with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
