@@ -9,7 +9,7 @@ def chat():
         sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
         st.stop()
 
-    client = OpenAI()
+    client = OpenAI(api_key=st.session_state.openai_api_key)
 
     if "openai_model" not in st.session_state:
         st.session_state["openai_model"] = "gpt-4-turbo-preview"
