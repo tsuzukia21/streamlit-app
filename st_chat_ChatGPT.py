@@ -1,6 +1,7 @@
 from openai import OpenAI
 import streamlit as st
 import streamlit_antd_components as sac
+import os
 
 def chat():
     st.title("ChatGPT by Streamlit")
@@ -72,4 +73,13 @@ def chat():
             st.rerun()
 
 if __name__ == "__main__":
+    if not hasattr(st.session_state, "openai_api_key"):
+        try:
+            st.session_state.openai_api_key = os.environ["OPENAI_API_KEY"]
+        except:
+            st.session_state.openai_api_key = ""
+    with st.sidebar:
+        openai_api_key = st.text_input("OpenAI API Key", type="password")
+        if not openai_api_key == "":
+            st.session_state.openai_api_key = openai_api_key
     chat()
