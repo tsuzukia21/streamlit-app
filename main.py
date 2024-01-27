@@ -35,6 +35,7 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
     if not openai_api_key == "":
         st.session_state.openai_api_key = openai_api_key
+    st.write("if you are running the app locally,  \nthere is no need to enter the key  \nif it is already set as an environment variable.")
 
 if menu == 'home':
     home()

@@ -5,10 +5,6 @@ def home():
     st.title("Home😊")
     st.header("Welcome to tsuzukia's Streamlit app!")
     st.header("I am creating a Streamlit app for work, and I will share a part of it😊")
-    sac.alert(label='info', 
-              description='To operate an AI app, you must enter the OpenAI API key.  \
-                If you are running the app locally, there is no need to enter the key if it is already set as an environment variable.', 
-                size='lg', banner=[False, True], icon=True, closable=True)
     st.divider()
     st.subheader("I also publish an engineering blog. Feel free to check it out! It's in Japanese, though.")
     st.markdown("""
