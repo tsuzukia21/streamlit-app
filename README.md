@@ -16,6 +16,7 @@ st_chat_Agent.py...[StreamlitでChatGPTアプリを作成しよう!](https://zen
 
 st_transcribe.py...[Streamlitで音声文字起こしアプリを作成してみよう！*文字起こし結果修正機能付き](https://zenn.dev/tsuzukia/articles/eb116703b71c5f)
 
+st_MitoSheet.py...[streamlitで気軽に実行出来るスプレッドシートMitoの備忘録(紹介)](https://zenn.dev/tsuzukia/articles/338d70e1c7166d)
 
 # Installation
 
