@@ -18,26 +18,20 @@ st_transcribe.py...[Streamlitで音声文字起こしアプリを作成してみ
 
 
 # Installation
-Depending on the application, the following packages are basically required.
-
-アプリによりますが基本的に以下のパッケージは必要です。
 
 ```python
-pip install streamlit
-pip install openai
-pip install langchain
+pip install -r requirements.txt
 ```
-There are other libraries you may need, so please download them in a timely manner.
-
-他にも必要なライブラリがありますので適時ダウンロードしてください
 
 # Usage
-To start the application, execute the following command in a terminal.
 
-アプリをスタートするにはターミナルで以下のコマンドを実行する必要があります。
+ChatGPT
+If you run main.py, you can access each app from the side menu, but you can also run each app individually.
+
+main.pyを実行すればサイドメニューから各アプリにアクセスできますが、個別に各アプリを実行することもできます。
 
 ```python
-streamlit run XXXXX.py
+streamlit run main.py
 ```
 
 # API Key
