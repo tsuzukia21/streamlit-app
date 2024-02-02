@@ -32,7 +32,7 @@ def agent():
     msgs = StreamlitChatMessageHistory(key="special_app_key")
     memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
 
-    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-3.5-turbo",openai_api_key=st.session_state.openai_api_key)
+    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
     llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
     tools = [
         Tool(
