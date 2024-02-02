@@ -15,7 +15,7 @@ import os
 
 def agent():
     st.title("Agent by Streamlit")
-  
+    st.write("**using the Agent feature of Langchain. The current tools are duckduckgo-search and llm-math-chain.Please set your favorite tool.**")
     search = DuckDuckGoSearchRun()
 
     attrs=["messages_agent","kwargs_agent"]

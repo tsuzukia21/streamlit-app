@@ -5,7 +5,7 @@ import os
 
 def chat():
     st.title("ChatGPT by Streamlit")
-    
+    st.write("**it is a simple chatbot made only with OpenAI and Streamlit. You can set system prompts, model, and temperature as options.**")
     client = OpenAI(api_key=st.session_state.openai_api_key)
 
     if "openai_model" not in st.session_state:

@@ -7,7 +7,7 @@ from st_chat_Agent import agent
 from st_MitoSheet import mito
 from st_transcribe import transcribe
 
-st.set_page_config(layout='wide', page_title='streamlit-antd-components')
+st.set_page_config(layout="wide", page_title="tsuzukia's app")
 
 if not hasattr(st.session_state, "openai_api_key"):
     try:
