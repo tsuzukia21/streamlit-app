@@ -29,25 +29,6 @@ def agent():
         "system_message": SystemMessage(content="You are an AI chatbot having a conversation with a human.", additional_kwargs={}),
         "extra_prompt_messages": [MessagesPlaceholder(variable_name="history")],
     }
-    msgs = StreamlitChatMessageHistory(key="special_app_key")
-    memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
-
-    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
-    llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
-    tools = [
-        Tool(
-            name = "ddg-search",
-            func=search.run,
-            description="useful for when you need to answer questions about current events.. You should ask targeted questions"
-        ),
-        Tool(
-            name="Calculator",
-            func=llm_math_chain.run,
-            description="useful for when you need to answer questions about math"
-        ),
-    ]
-
-    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, kwargs=kwargs_agent,verbose=False,memory=memory)
 
     for message in st.session_state.messages_agent:
         if not message["role"]=="system":
@@ -62,7 +43,28 @@ def agent():
         if st.session_state.openai_api_key == "":
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
-        
+
+        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
+        llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
+
+        msgs = StreamlitChatMessageHistory(key="special_app_key")
+        memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
+
+        tools = [
+            Tool(
+                name = "ddg-search",
+                func=search.run,
+                description="useful for when you need to answer questions about current events.. You should ask targeted questions"
+            ),
+            Tool(
+                name="Calculator",
+                func=llm_math_chain.run,
+                description="useful for when you need to answer questions about math"
+            ),
+        ]
+
+        agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS, kwargs=kwargs_agent,verbose=False,memory=memory)
+
         st.session_state.messages_agent.append({"role": "user", "content": user_prompt})
         with st.chat_message("user", avatar = "😊"):
             st.markdown(user_prompt)
