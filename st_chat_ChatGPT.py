@@ -6,10 +6,6 @@ import os
 def chat():
     st.title("ChatGPT by Streamlit")
     
-    if st.session_state.openai_api_key == "":
-        sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
-        st.stop()
-
     client = OpenAI(api_key=st.session_state.openai_api_key)
 
     if "openai_model" not in st.session_state:
@@ -42,6 +38,10 @@ def chat():
                     st.markdown(message["content"])
 
     if prompt := st.chat_input("What is up?"):
+        if st.session_state.openai_api_key == "":
+            sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
+            st.stop()
+
         st.session_state.messages.append({"role": "user", "content": prompt})
         with st.chat_message("user", avatar = "😊"):
             st.markdown(prompt)
