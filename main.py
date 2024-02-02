@@ -21,7 +21,7 @@ with st.sidebar.container():
         sac.MenuItem('pages', type='group', children=[
         sac.MenuItem('home', icon='house-fill'),
         sac.MenuItem('chat', icon='emoji-smile-fill'),
-        sac.MenuItem('agent', icon='person',tag=editing),
+        sac.MenuItem('agent', icon='person'),
         sac.MenuItem('transcribe', icon='music-note',tag=editing),
         sac.MenuItem('mitosheet', icon='table')]),
         sac.MenuItem('link', type='group', children=[
