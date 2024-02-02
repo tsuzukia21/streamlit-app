@@ -16,28 +16,23 @@ st_chat_Agent.py...[StreamlitでChatGPTアプリを作成しよう!](https://zen
 
 st_transcribe.py...[Streamlitで音声文字起こしアプリを作成してみよう！*文字起こし結果修正機能付き](https://zenn.dev/tsuzukia/articles/eb116703b71c5f)
 
+st_MitoSheet.py...[streamlitで気軽に実行出来るスプレッドシートMitoの備忘録(紹介)](https://zenn.dev/tsuzukia/articles/338d70e1c7166d)
 
 # Installation
-Depending on the application, the following packages are basically required.
-
-アプリによりますが基本的に以下のパッケージは必要です。
 
 ```python
-pip install streamlit
-pip install openai
-pip install langchain
+pip install -r requirements.txt
 ```
-There are other libraries you may need, so please download them in a timely manner.
-
-他にも必要なライブラリがありますので適時ダウンロードしてください
 
 # Usage
-To start the application, execute the following command in a terminal.
 
-アプリをスタートするにはターミナルで以下のコマンドを実行する必要があります。
+ChatGPT
+If you run main.py, you can access each app from the side menu, but you can also run each app individually.
+
+main.pyを実行すればサイドメニューから各アプリにアクセスできますが、個別に各アプリを実行することもできます。
 
 ```python
-streamlit run XXXXX.py
+streamlit run main.py
 ```
 
 # API Key
