@@ -25,6 +25,9 @@ def agent():
     if "Clear_agent" not in st.session_state:
         st.session_state.Clear_agent = False
 
+    msgs = StreamlitChatMessageHistory(key="special_app_key")
+    memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
+
     kwargs_agent = {
         "system_message": SystemMessage(content="You are an AI chatbot having a conversation with a human.", additional_kwargs={}),
         "extra_prompt_messages": [MessagesPlaceholder(variable_name="history")],
@@ -46,9 +49,6 @@ def agent():
 
         llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
         llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
-
-        msgs = StreamlitChatMessageHistory(key="special_app_key")
-        memory = ConversationBufferMemory(memory_key="history", return_messages=True, chat_memory=msgs)
 
         tools = [
             Tool(
