@@ -6,3 +6,4 @@ langchain
 duckduckgo-search
 typing
 streamlit_antd_components
+numexpr
