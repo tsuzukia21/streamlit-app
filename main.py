@@ -4,6 +4,7 @@ import os
 from home import home
 from st_chat_ChatGPT import chat
 from st_chat_Agent import agent
+from st_chat_vision import vision
 from st_MitoSheet import mito
 from st_transcribe import transcribe
 
@@ -22,6 +23,7 @@ with st.sidebar.container():
         sac.MenuItem('home', icon='house-fill'),
         sac.MenuItem('chat', icon='emoji-smile-fill'),
         sac.MenuItem('agent', icon='person'),
+        sac.MenuItem('vision', icon='eye-fill'),
         sac.MenuItem('transcribe', icon='music-note',tag=editing),
         sac.MenuItem('mitosheet', icon='table')]),
         sac.MenuItem('link', type='group', children=[
@@ -43,6 +45,8 @@ elif menu == 'chat':
     chat()
 elif menu == 'agent':
     agent()
+elif menu == 'vision':
+    vision()
 elif menu == 'transcribe':
     transcribe()
 elif menu == 'mitosheet':
