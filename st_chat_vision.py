@@ -95,10 +95,7 @@ def vision():
         )
         ]
     
-    llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview")
 
-    agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS,verbose=False,agent_kwargs=agent_kwargs_vision,memory=memory)
-    
     for message in st.session_state.messages_vision:
         if not message["role"]=="system":
             if message["role"]=="assistant":
@@ -109,6 +106,9 @@ def vision():
                     st.markdown(message["content"],unsafe_allow_html=True)
 
     if user_prompt_vision := st.chat_input("Send a message"):
+        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview")
+        agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS,verbose=False,agent_kwargs=agent_kwargs_vision,memory=memory)
+    
         if st.session_state.openai_api_key == "":
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
