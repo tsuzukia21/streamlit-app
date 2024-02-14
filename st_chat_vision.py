@@ -106,12 +106,14 @@ def vision():
                     st.markdown(message["content"],unsafe_allow_html=True)
 
     if user_prompt_vision := st.chat_input("Send a message"):
-        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview")
-        agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS,verbose=False,agent_kwargs=agent_kwargs_vision,memory=memory)
-    
+
         if st.session_state.openai_api_key == "":
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
+            
+        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview")
+        agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS,verbose=False,agent_kwargs=agent_kwargs_vision,memory=memory)
+    
         st.session_state.messages_vision.append({"role": "user", "content": user_prompt_vision})
         with st.chat_message("user", avatar="😊"):
             st.markdown(user_prompt_vision.replace("\n","<br>").replace("$","\\$").replace("#","\\#").replace("_","\\_"),unsafe_allow_html=True)
