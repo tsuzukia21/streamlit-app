@@ -110,8 +110,8 @@ def vision():
         if st.session_state.openai_api_key == "":
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
-            
-        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview")
+
+        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
         agent = initialize_agent(tools, llm, agent=AgentType.OPENAI_FUNCTIONS,verbose=False,agent_kwargs=agent_kwargs_vision,memory=memory)
     
         st.session_state.messages_vision.append({"role": "user", "content": user_prompt_vision})
