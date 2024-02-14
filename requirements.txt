@@ -7,3 +7,4 @@ duckduckgo-search
 typing
 streamlit_antd_components
 numexpr
+st-img-pastebutton
