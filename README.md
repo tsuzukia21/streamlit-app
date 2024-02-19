@@ -4,6 +4,8 @@ The application created with stremalit is available to the public.
 
 stremalitで作成したアプリを公開しています。
 
+[Streamlit Cloud App](https://app-app-kuvmcxy8ydiaeyekydue6h.streamlit.app/)
+
 # How to use
 
 For details on usage and code, please refer to the following links.(Japanese)
