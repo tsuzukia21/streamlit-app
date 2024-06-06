@@ -9,7 +9,7 @@ def chat():
     client = OpenAI(api_key=st.session_state.openai_api_key)
 
     if "openai_model" not in st.session_state:
-        st.session_state["openai_model"] = "gpt-4-turbo-preview"
+        st.session_state["openai_model"] = "gpt-4o"
 
     if "Clear" not in st.session_state:
         st.session_state.Clear = False
@@ -24,7 +24,7 @@ def chat():
         st.session_state.messages = [{"role":"system", "content":st.session_state.system_prompt}]
 
     with st.expander("Options"):
-        st.selectbox("Model", ("gpt-4-turbo-preview", "gpt-3.5-turbo"), help="Choose the AI model to use. 'gpt-4-turbo-preview' is the latest model with more advanced capabilities, while 'gpt-3.5-turbo' is an older but still powerful version.", key="openai_model")
+        st.selectbox("Model", ("gpt-4o", "gpt-3.5-turbo"), help="Choose the AI model to use. 'gpt-4o' is the latest model with more advanced capabilities, while 'gpt-3.5-turbo' is an older but still powerful version.", key="openai_model")
         st.text_area("System Prompt", value="You are an AI chatbot having a conversation with a human.", help="Can only be set at the time of the first message sent.Set the initial prompt for the AI system which sets the context of the conversation. This can influence how the AI responds.", key="system_prompt")
         st.slider("Temperature", min_value=0.0, max_value=1.0, value=0.7, help="Adjust the creativity of the AI's responses. A lower temperature means more deterministic and predictable responses, while a higher temperature results in more varied and sometimes more creative responses.", key="temperature")
 

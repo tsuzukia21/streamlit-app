@@ -47,7 +47,7 @@ def agent():
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
 
-        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4-turbo-preview",openai_api_key=st.session_state.openai_api_key)
+        llm = ChatOpenAI(temperature=0, streaming=True, model="gpt-4o",openai_api_key=st.session_state.openai_api_key)
         llm_math_chain = LLMMathChain.from_llm(llm=llm, verbose=False)
 
         tools = [
