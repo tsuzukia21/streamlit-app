@@ -59,7 +59,7 @@ def analyze_image(prompt):
 
 
 def vision():
-    st.title("ChatGPT-Vision")
+    st.title("ChatGPT Vision")
     st.write("**You can analyze images. Please upload an image and ask a question.**")
 
     clopboard_file = paste(label="paste from clipboard",key="image_clipboard")
