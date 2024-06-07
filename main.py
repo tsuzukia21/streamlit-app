@@ -24,7 +24,7 @@ with st.sidebar.container():
         sac.MenuItem('chat', icon='emoji-smile-fill'),
         sac.MenuItem('agent', icon='person'),
         sac.MenuItem('vision', icon='eye-fill'),
-        sac.MenuItem('transcribe', icon='music-note',tag=editing),
+        sac.MenuItem('transcribe', icon='music-note'),
         sac.MenuItem('mitosheet', icon='table')]),
         sac.MenuItem('link', type='group', children=[
         sac.MenuItem('Github', icon='github', href='https://github.com/tsuzukia21'),
