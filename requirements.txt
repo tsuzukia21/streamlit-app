@@ -9,3 +9,6 @@ streamlit_antd_components
 numexpr
 st-img-pastebutton
 langchain_openai
+langgraph
+langchain_core
+langchain_community
