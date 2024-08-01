@@ -63,7 +63,7 @@ class GraphState(TypedDict):
 async def route_question(state):
     st.session_state.status.update(label=f"**---ROUTE QUESTION---**", state="running", expanded=True)
     st.session_state.log += "---ROUTE QUESTION---" + "\n\n"
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
     structured_llm_router = llm.with_structured_output(RouteQuery)
 
     system = """あなたはユーザーの質問をベクターストアまたはウェブ検索にルーティングする専門家です。
@@ -137,7 +137,7 @@ async def web_search(state):
 
 async def grade_documents(state):
     st.session_state.number_trial += 1
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
     structured_llm_grader = llm.with_structured_output(GradeDocuments)
 
     system = """あなたは、ユーザーの質問に対して取得されたドキュメントの関連性を評価する採点者です。
@@ -200,7 +200,7 @@ Context: {context}"""),
             ]
         )
         
-    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model_name="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
 
     rag_chain = prompt | llm | StrOutputParser()
     question = state["question"]
@@ -213,7 +213,7 @@ async def transform_query(state):
     st.session_state.status.update(label=f"**---TRANSFORM QUERY---**", state="running", expanded=True)
     st.session_state.placeholder.empty()
     st.session_state.log += "---TRANSFORM QUERY---" + "\n\n"
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
 
     system = """あなたは、入力された質問をベクトルストア検索に最適化されたより良いバージョンに変換する質問リライターです。
 質問を見て、質問者の意図/意味について推論してより良いベクトル検索の為の質問を作成してください。"""
@@ -251,7 +251,7 @@ async def grade_generation_v_documents_and_question(state):
     st.session_state.number_trial += 1
     st.session_state.status.update(label=f"**---CHECK HALLUCINATIONS---**", state="running", expanded=False)
     st.session_state.log += "---CHECK HALLUCINATIONS---" + "\n\n"
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
     structured_llm_grader = llm.with_structured_output(GradeHallucinations)
 
     system = """あなたは、LLMの生成が取得された事実のセットに基づいているか/サポートされているかを評価する採点者です。
@@ -262,7 +262,7 @@ async def grade_generation_v_documents_and_question(state):
             ("human", "Set of facts: \n\n {documents} \n\n LLM generation: {generation}"),
         ]
     )
-    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0)
+    llm = ChatOpenAI(model="gpt-4o-mini", temperature=0, openai_api_key=st.session_state.openai_api_key)
     structured_llm_grader = llm.with_structured_output(GradeAnswer)
 
     system = """あなたは、回答が質問に対処しているか/解決しているかを評価する採点者です。

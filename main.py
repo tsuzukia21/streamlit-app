@@ -27,7 +27,7 @@ with st.sidebar.container():
         sac.MenuItem('vision', icon='eye-fill'),
         sac.MenuItem('transcribe', icon='music-note'),
         sac.MenuItem('mitosheet', icon='table'),
-        sac.MenuItem('Adaptive RAG', icon='graph-bar'),
+        sac.MenuItem('Adaptive RAG', icon='book'),
         ]),
         sac.MenuItem('link', type='group', children=[
         sac.MenuItem('Github', icon='github', href='https://github.com/tsuzukia21'),
