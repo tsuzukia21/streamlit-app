@@ -7,6 +7,7 @@ from st_chat_Agent import agent
 from st_chat_vision import vision
 from st_MitoSheet import mito
 from st_transcribe import transcribe
+from st_rag_langgraph import st_rag_langgraph
 
 st.set_page_config(layout="wide", page_title="tsuzukia's app")
 
@@ -37,6 +38,10 @@ with st.sidebar:
     openai_api_key = st.text_input("OpenAI API Key", type="password")
     if not openai_api_key == "":
         st.session_state.openai_api_key = openai_api_key
+    tavily_api_key = st.text_input("Tavily API Key", type="password")
+    if not tavily_api_key == "":
+        st.session_state.tavily_api_key = tavily_api_key
+        os.environ["TAVILY_API_KEY"] = tavily_api_key
     st.write("if you are running the app locally,  \nthere is no need to enter the key  \nif it is already set as an environment variable.")
 
 if menu == 'home':
@@ -51,3 +56,5 @@ elif menu == 'transcribe':
     transcribe()
 elif menu == 'mitosheet':
     mito()
+elif menu == 'Adaptive RAG':
+    st_rag_langgraph()
