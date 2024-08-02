@@ -107,7 +107,7 @@ def vision():
 
     if user_prompt_vision := st.chat_input("Send a message"):
 
-        if st.session_state.openai_api_key == "":
+        if not st.session_state.openai_api_key:
             sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
             st.stop()
 
@@ -139,14 +139,10 @@ def vision():
             st.rerun()
 
 if __name__ == "__main__":
-    if not hasattr(st.session_state, "openai_api_key"):
-        try:
-            st.session_state.openai_api_key = os.environ["OPENAI_API_KEY"]
-        except:
-            st.session_state.openai_api_key = ""
     with st.sidebar:
-        openai_api_key = st.text_input("OpenAI API Key", type="password")
-        if not openai_api_key == "":
-            st.session_state.openai_api_key = openai_api_key
-        st.write("if you are running the app locally,  \nthere is no need to enter the key  \nif it is already set as an environment variable.")
+        st.session_state.openai_api_key = os.getenv("OPENAI_API_KEY")
+        new_openai_api_key = st.text_input("OpenAI API Key", value = st.session_state.openai_api_key,type="password")
+        apply_api_key = st.button("Apply API Key")
+        if apply_api_key:
+            st.session_state.openai_api_key = new_openai_api_key
     vision()

@@ -11,12 +11,6 @@ from st_rag_langgraph import st_rag_langgraph
 
 st.set_page_config(layout="wide", page_title="tsuzukia's app")
 
-if not hasattr(st.session_state, "openai_api_key"):
-    try:
-        st.session_state.openai_api_key = os.environ["OPENAI_API_KEY"]
-    except:
-        st.session_state.openai_api_key = ""
-
 with st.sidebar.container():
     editing = sac.Tag('editing', color='green')
     menu = sac.menu([
@@ -37,14 +31,16 @@ with st.sidebar.container():
     ],index=1)
 
 with st.sidebar:
-    openai_api_key = st.text_input("OpenAI API Key", type="password")
-    if not openai_api_key == "":
-        st.session_state.openai_api_key = openai_api_key
-    tavily_api_key = st.text_input("Tavily API Key", type="password")
-    if not tavily_api_key == "":
-        st.session_state.tavily_api_key = tavily_api_key
-        os.environ["TAVILY_API_KEY"] = tavily_api_key
-    st.write("if you are running the app locally,  \nthere is no need to enter the key  \nif it is already set as an environment variable.")
+    if not hasattr(st.session_state, "openai_api_key"):
+        st.session_state.openai_api_key = os.getenv("OPENAI_API_KEY")
+    if not hasattr(st.session_state, "tavily_api_key"):
+        st.session_state.tavily_api_key = os.getenv("TAVILY_API_KEY")
+    new_openai_api_key = st.text_input("OpenAI API Key", value = st.session_state.openai_api_key,type="password")
+    new_tavily_api_key = st.text_input("Tavily API Key", value = st.session_state.tavily_api_key, type="password")
+    apply_api_key = st.button("Apply API Key")
+    if apply_api_key:
+        st.session_state.openai_api_key = new_openai_api_key
+        st.session_state.tavily_api_key = new_tavily_api_key
 
 if menu == 'home':
     home()

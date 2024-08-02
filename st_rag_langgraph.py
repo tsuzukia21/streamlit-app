@@ -14,6 +14,7 @@ from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.tools.tavily_search import TavilySearchResults
 from langchain.schema import Document
+import streamlit_antd_components as sac
 
 class RouteQuery(BaseModel):
     """ユーザーのクエリを最も関連性の高いデータソースにルーティングします。"""
@@ -401,6 +402,9 @@ def st_rag_langgraph():
     st.title("Adaptive RAG by LangGraph")
 
     if prompt := st.chat_input("質問を入力してください"):
+        if not st.session_state.openai_api_key or not st.session_state.tavily_api_key:
+            sac.alert(label='warning', description='Please add your OpenAI API key and Tavily API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
+            st.stop()
         st.session_state.log = ""
         with st.chat_message("user", avatar="😊"):
             st.markdown(prompt)

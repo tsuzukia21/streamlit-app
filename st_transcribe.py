@@ -4,7 +4,7 @@ import streamlit_antd_components as sac
 
 def transcribe():
     st.title("Transcribe by OpenAI")
-    if st.session_state.openai_api_key == "":
+    if not st.session_state.openai_api_key:
         sac.alert(label='warning', description='Please add your OpenAI API key to continue.', color='red', banner=[False, True], icon=True, size='lg')
         st.stop()
     client = OpenAI(api_key=st.session_state.openai_api_key)

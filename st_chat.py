@@ -147,7 +147,7 @@ def st_Chat():
     st.write("**You can converse with the selected model. You can pause the conversation midway and edit the conversation history.**")
 
     with st.sidebar.container():
-        engine = st.selectbox("model",("gpt-4o","gpt-4-turbo","gpt-3.5-turbo","claude-3-opus","gemini-1.5-pro"),help="You can select the model.")
+        engine = st.selectbox("model",("gpt-4o","gpt-4-turbo","gpt-4o-mini","claude-3.5-sonnet","gemini-1.5-pro"),help="You can select the model.")
         system_prompt = st.text_area("system prompt",value="You are an excellent AI assistant.",help="You can provide a prompt to the system. This is only effective at the first message transmission.")
         temperature = st.slider(label="temperature",min_value=0.0, max_value=1.0,value=st.session_state.temperature,help="Controls the randomness of the generated text.")
         openai_api_key = st.text_input("OpenAI API Key", type="password", value=os.getenv("OPENAI_API_KEY", ""))
@@ -161,16 +161,16 @@ def st_Chat():
     if engine != st.session_state.engine:
         st.session_state.engine = engine
 
-    if engine == "gpt-4-turbo" or engine == "gpt-4o" or engine == "gpt-3.5-turbo":
+    if engine == "gpt-4-turbo" or engine == "gpt-4o" or engine == "gpt-4o-mini":
         if openai_api_key == "":
             st.error("Please enter the OpenAI API Key.")
             st.stop()
         model = ChatOpenAI(model=st.session_state.engine,api_key=openai_api_key,temperature=st.session_state.temperature)
-    elif engine == "claude-3-opus":
+    elif engine == "claude-3.5-sonnet":
         if anthropic_api_key == "":
-            st.error("Please enter the Claude API Key.")
+            st.error("Please enter the Anthropic API Key.")
             st.stop()
-        model = ChatAnthropic(model_name="claude-3-opus",anthropic_api_key=anthropic_api_key,temperature=st.session_state.temperature)
+        model = ChatAnthropic(model_name="claude-3-5-sonnet-20240620",anthropic_api_key=anthropic_api_key,temperature=st.session_state.temperature)
     elif engine == "gemini-1.5-pro":
         if google_api_key == "":
             st.error("Please enter the Google API Key.")
