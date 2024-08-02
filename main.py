@@ -2,7 +2,8 @@ import streamlit as st
 import streamlit_antd_components as sac
 import os
 from home import home
-from st_chat_ChatGPT import chat
+# from st_chat_ChatGPT import chat
+from st_chat import st_chat
 from st_chat_Agent import agent
 from st_chat_vision import vision
 from st_MitoSheet import mito
@@ -33,19 +34,27 @@ with st.sidebar.container():
 with st.sidebar:
     if not hasattr(st.session_state, "openai_api_key"):
         st.session_state.openai_api_key = os.getenv("OPENAI_API_KEY")
+    if not hasattr(st.session_state, "anthropic_api_key"):
+        st.session_state.anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not hasattr(st.session_state, "google_api_key"):
+        st.session_state.google_api_key = os.getenv("GOOGLE_API_KEY")
     if not hasattr(st.session_state, "tavily_api_key"):
         st.session_state.tavily_api_key = os.getenv("TAVILY_API_KEY")
     new_openai_api_key = st.text_input("OpenAI API Key", value = st.session_state.openai_api_key,type="password")
+    new_anthropic_api_key = st.text_input("Anthropic API Key", value = st.session_state.anthropic_api_key, type="password")
+    new_google_api_key = st.text_input("Google API Key", value = st.session_state.google_api_key,type="password")
     new_tavily_api_key = st.text_input("Tavily API Key", value = st.session_state.tavily_api_key, type="password")
     apply_api_key = st.button("Apply API Key")
     if apply_api_key:
         st.session_state.openai_api_key = new_openai_api_key
+        st.session_state.anthropic_api_key = new_anthropic_api_key
+        st.session_state.google_api_key = new_google_api_key
         st.session_state.tavily_api_key = new_tavily_api_key
 
 if menu == 'home':
     home()
 elif menu == 'chat':
-    chat()
+    st_chat()
 elif menu == 'agent':
     agent()
 elif menu == 'vision':
