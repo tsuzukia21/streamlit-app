@@ -20,6 +20,8 @@ st_transcribe.py...[Streamlitで音声文字起こしアプリを作成してみ
 
 st_MitoSheet.py...[streamlitで気軽に実行出来るスプレッドシートMitoの備忘録(紹介)](https://zenn.dev/tsuzukia/articles/338d70e1c7166d)
 
+st_rag_langgraph.py...[streamlitでLangGraphによる自己修正RAGを実装してみよう！](https://zenn.dev/tsuzukia/articles/e4db5889a9a02c)
+
 # Installation
 
 ```python
@@ -39,9 +41,9 @@ streamlit run main.py
 
 # API Key
 
-To use LLM(ChatGPT), you need an API Key from OpenAI; please register with OpenAI and have an API Key issued. Also, you will have to pay a little money when you use the API Key.
+Please set up the API Key as needed.
 
-LLM(ChatGPT)を使用するにはOpenAIのAPI Keyが必要です。OpenAIに登録してAPI Keyの発行をしてください。また、API Keyを使用する際は少しのお金が発生します。
+必要に応じAPI Keyの設定をしてください
 
 # Author
 
