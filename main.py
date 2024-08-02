@@ -49,7 +49,7 @@ with st.sidebar:
         st.session_state.openai_api_key = new_openai_api_key
         st.session_state.anthropic_api_key = new_anthropic_api_key
         st.session_state.google_api_key = new_google_api_key
-        os.environ["TAVILY_API_KEY"] = new_tavily_api_key
+        st.session_state.tavily_api_key = new_tavily_api_key
 
 if menu == 'home':
     home()

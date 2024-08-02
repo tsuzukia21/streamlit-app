@@ -13,6 +13,7 @@ from langchain_community.document_loaders import WebBaseLoader
 from langchain_community.vectorstores import Chroma
 from langchain_openai import OpenAIEmbeddings
 from langchain_community.tools.tavily_search import TavilySearchResults
+from langchain_community.utilities.tavily_search import TavilySearchAPIWrapper
 from langchain.schema import Document
 import streamlit_antd_components as sac
 
@@ -128,7 +129,8 @@ async def web_search(state):
     st.session_state.placeholder.markdown(f"WEB SEARCH…\n\nKEY WORD:{state['question']}")
     st.session_state.log += f"WEB SEARCH…\n\nKEY WORD:{state['question']}" + "\n\n"
     question = state["question"]
-    web_search_tool = TavilySearchResults(k=3)
+    tavily_api_wrapper = TavilySearchAPIWrapper(tavily_api_key=st.session_state.tavily_api_key)
+    web_search_tool = TavilySearchResults(api_wrapper=tavily_api_wrapper, k=3)
 
     docs = web_search_tool.invoke({"query": question})
     web_results = "\n".join([d["content"] for d in docs])
