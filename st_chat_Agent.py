@@ -1,9 +1,7 @@
 import streamlit as st
-from langchain_community.callbacks import StreamlitCallbackHandler
 from langchain_community.tools import DuckDuckGoSearchRun
 from langchain_community.chat_models import ChatOpenAI
 from langchain.agents import AgentType, initialize_agent, Tool
-from langchain.callbacks import StreamlitCallbackHandler
 from langchain.chains import LLMMathChain
 from langchain.memory import ConversationBufferMemory
 from langchain.memory import StreamlitChatMessageHistory
@@ -11,6 +9,8 @@ from langchain.prompts import MessagesPlaceholder
 from langchain.schema.messages import SystemMessage
 import streamlit_antd_components as sac
 from langchain_core.runnables import RunnableConfig
+from langchain_community.chat_message_histories import StreamlitChatMessageHistory
+from langchain_community.callbacks.streamlit import StreamlitCallbackHandler
 import os
 
 def agent():
