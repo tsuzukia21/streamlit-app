@@ -11,7 +11,6 @@ from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_anthropic import ChatAnthropic
 from langchain_google_genai import ChatGoogleGenerativeAI
 import pyperclip
-import os
 encoding: Encoding = tiktoken.encoding_for_model("gpt-4o")
 
 def _get_openai_type(msg):
@@ -83,20 +82,12 @@ def show_messages(messages, memory, edit, new_message=None):
                 st.markdown(new_message.replace("\n","  \n"), unsafe_allow_html=True)
             
 def check_token():
-    if st.session_state.engine=="gpt-4o-mini":
-        if st.session_state.total_tokens>10000:
-            percent=math.floor(st.session_state.total_tokens/100)
-            st.error(f'Error: The amount of text exceeds the limit by {percent}%. \nPlease delete unnecessary parts or reset the conversation.', icon="🚨")
-            if st.button('clear chat history'):
-                clear_chat()
-            st.stop()
-    elif st.session_state.engine=="gpt-4-turbo" or st.session_state.engine=="gpt-4o" or st.session_state.engine=="claude-3.5-sonnet" or st.session_state.engine=="gemini-1.5-pro":
-        if st.session_state.total_tokens>20000:
-            percent=math.floor(st.session_state.total_tokens/200)
-            if st.button('clear chat history'):
-                clear_chat()
-            st.error(f'Error: The amount of text exceeds the limit by {percent}%. \nPlease delete unnecessary parts or reset the conversation.', icon="🚨")
-            st.stop()
+    if st.session_state.total_tokens>20000:
+        percent=math.floor(st.session_state.total_tokens/200)
+        st.error(f'Error: The amount of text exceeds the limit by {percent}%. \nPlease delete unnecessary parts or reset the conversation.', icon="🚨")
+        if st.button('clear chat history'):
+            clear_chat()
+        st.stop()
     if len(st.session_state.messages) > 30:
         if st.button('clear chat history'):
             clear_chat()
@@ -110,68 +101,67 @@ def modify_message(messages, i, memory):
         memory.chat_memory.add_message(msg)
     return messages
 
+def temperareture_update():
+    st.session_state.temperature = st.session_state.new_temperature
+
+def system_prompt_update():
+    st.session_state.system_prompt = st.session_state.new_system_prompt
+
 def st_chat():
     st.title("Streamlit Chatbot")
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
-    attrs=["Clear"]
-    for attr in attrs:
-        if attr not in st.session_state:
-            st.session_state[attr] = False
-    if "engine" not in st.session_state:
-        st.session_state.engine = "gpt-4o"
     if not hasattr(st.session_state, "temperature"):
         st.session_state.temperature = 0.7
-    attrs=["edit","save","stop"]
+    attrs=["edit","save","stop","Clear"]
     for attr in attrs:
         if attr not in st.session_state:
             st.session_state[attr] = False
-    attrs=["done"]
-    for attr in attrs:
-        if attr not in st.session_state:
-            st.session_state[attr] = True
-
-    attrs=["total_tokens"]
-    for attr in attrs:
-        if not hasattr(st.session_state, attr):
-            st.session_state[attr]= 0.0
+    if "done" not in st.session_state:
+        st.session_state.done = True
+    if "total_token" not in st.session_state:
+        st.session_state.total_token= 0
     if "system_prompt" not in st.session_state:
         st.session_state.system_prompt = "You are an helpful AI assistant."
     attrs=["last_response","full_response","prompt"]
     for attr in attrs:
         if attr not in st.session_state:
             st.session_state.attr = ""
+    if "engine_index" not in st.session_state:
+        st.session_state.engine_index= 0
 
     st.write("**You can converse with the selected model. You can pause the conversation midway and edit the conversation history.**")
 
     with st.expander("option"):
-        engine = st.selectbox("model",("gpt-4o","gpt-4-turbo","gpt-4o-mini","claude-3.5-sonnet","gemini-1.5-pro"),help="You can select the model.")
-        system_prompt = st.text_area("system prompt",value="You are an excellent AI assistant.",help="You can provide a prompt to the system. This is only effective at the first message transmission.")
-        temperature = st.slider(label="temperature",min_value=0.0, max_value=1.0,value=st.session_state.temperature,help="Controls the randomness of the generated text.")
+        st.selectbox("model",("gpt-4o","gpt-4o-mini","claude-3.5-sonnet","gemini-1.5-pro"),help="You can select the model.",index=st.session_state.engine_index,key="engine")
+        st.text_area("system prompt",value=st.session_state.system_prompt,help="You can provide a prompt to the system. This is only effective at the first message transmission.",key="new_system_prompt",on_change=system_prompt_update)
+        st.slider(label="temperature",min_value=0.0, max_value=1.0,value=st.session_state.temperature,help="Controls the randomness of the generated text.",key="new_temperature",on_change=temperareture_update)
 
-    if system_prompt != st.session_state.system_prompt:
-        st.session_state.system_prompt = system_prompt
-    if temperature != st.session_state.temperature:
-        st.session_state.temperature = temperature
-    if engine != st.session_state.engine:
-        st.session_state.engine = engine
-
-    if engine == "gpt-4-turbo" or engine == "gpt-4o" or engine == "gpt-4o-mini":
+    if st.session_state.engine == "gpt-4o":
         if not st.session_state.openai_api_key:
             st.error("Please enter the OpenAI API Key.")
             st.stop()
         model = ChatOpenAI(model=st.session_state.engine,api_key=st.session_state.openai_api_key,temperature=st.session_state.temperature)
-    elif engine == "claude-3.5-sonnet":
+        st.session_state.engine_index = 0
+    elif st.session_state.engine == "gpt-4o-mini":
+        if not st.session_state.openai_api_key:
+            st.error("Please enter the OpenAI API Key.")
+            st.stop()
+        model = ChatOpenAI(model=st.session_state.engine,api_key=st.session_state.openai_api_key,temperature=st.session_state.temperature)
+        st.session_state.engine_index = 1
+    elif st.session_state.engine == "claude-3.5-sonnet":
         if not st.session_state.anthropic_api_key:
             st.error("Please enter the Anthropic API Key.")
             st.stop()
         model = ChatAnthropic(model_name="claude-3-5-sonnet-20240620",anthropic_api_key=st.session_state.anthropic_api_key,temperature=st.session_state.temperature)
-    elif engine == "gemini-1.5-pro":
+        st.session_state.engine_index = 2
+    elif st.session_state.engine == "gemini-1.5-pro":
         if not st.session_state.google_api_key:
             st.error("Please enter the Google API Key.")
             st.stop()
-        model = ChatGoogleGenerativeAI(model="gemini-pro",google_api_key=st.session_state.google_api_key,convert_system_message_to_human=True,temperature=st.session_state.temperature)
+        model = ChatGoogleGenerativeAI(model="gemini-1.5-pro-exp-0801",google_api_key=st.session_state.google_api_key,temperature=st.session_state.temperature)
+        st.session_state.engine_index = 3
 
     prompt_template = ChatPromptTemplate.from_messages(
         [
