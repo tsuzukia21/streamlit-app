@@ -15,3 +15,4 @@ langchain_community
 langchain_anthropic
 langchain_google_genai
 pyperclip
+streamlit_cookies_controller
