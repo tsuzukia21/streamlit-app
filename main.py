@@ -13,9 +13,6 @@ import time
 
 st.set_page_config(layout="wide", page_title="tsuzukia's app")
 
-def update_index():
-    st.session_state.controller.set('index', st.session_state.index)
-
 if not hasattr(st.session_state, "openai_api_key"):
     st.session_state.openai_api_key = os.getenv("OPENAI_API_KEY")
 if not hasattr(st.session_state, "anthropic_api_key"):
@@ -52,7 +49,7 @@ if not hasattr(st.session_state, "index"):
 
 with st.sidebar.container() as st.session_state.sidebar:
     editing = sac.Tag('editing', color='green')
-    sac.menu([
+    menu = sac.menu([
         sac.MenuItem('pages', type='group', children=[
         sac.MenuItem('home', icon='house-fill'),
         sac.MenuItem('chat', icon='emoji-smile-fill'),
@@ -67,7 +64,7 @@ with st.sidebar.container() as st.session_state.sidebar:
         sac.MenuItem('X', icon='twitter-x', href='https://twitter.com/tsuzukia_prgm'),
         sac.MenuItem('Zenn', icon='book', href='https://zenn.dev/tsuzukia')]),
         sac.MenuItem(type='divider'),
-    ],index=st.session_state.index,key='menu',on_change=update_index)
+    ],index=st.session_state.index,key='menu')
 
     new_openai_api_key = st.text_input("OpenAI API Key", value = st.session_state.openai_api_key,type="password")
     new_anthropic_api_key = st.text_input("Anthropic API Key", value = st.session_state.anthropic_api_key, type="password")
@@ -80,25 +77,27 @@ with st.sidebar.container() as st.session_state.sidebar:
         st.session_state.google_api_key = new_google_api_key
         st.session_state.tavily_api_key = new_tavily_api_key
 
-if st.session_state.menu == 'home':
-    home()
-    st.session_state.index = 1
-elif st.session_state.menu == 'chat':
-    st_chat()
-    st.session_state.index = 2
-elif st.session_state.menu == 'agent':
-    agent()
-    st.session_state.index = 3
-elif st.session_state.menu == 'vision':
-    vision()
-    st.session_state.index = 4
-elif st.session_state.menu == 'transcribe':
-    transcribe()
-    st.session_state.index = 5
-elif st.session_state.menu == 'mitosheet':
-    mito()
-    st.session_state.index = 6
-elif st.session_state.menu == 'Adaptive RAG':
-    st_rag_langgraph()
-    st.session_state.index = 7
+if menu:
+    if st.session_state.menu == 'home':
+        home()
+        st.session_state.index = 1
+    elif st.session_state.menu == 'chat':
+        st_chat()
+        st.session_state.index = 2
+    elif st.session_state.menu == 'agent':
+        agent()
+        st.session_state.index = 3
+    elif st.session_state.menu == 'vision':
+        vision()
+        st.session_state.index = 4
+    elif st.session_state.menu == 'transcribe':
+        transcribe()
+        st.session_state.index = 5
+    elif st.session_state.menu == 'mitosheet':
+        mito()
+        st.session_state.index = 6
+    elif st.session_state.menu == 'Adaptive RAG':
+        st_rag_langgraph()
+        st.session_state.index = 7
+    st.session_state.controller.set('index', st.session_state.index)
     
